@@ -35,6 +35,13 @@ public class SimpleTests {
 		assertEquals("The initial game did not have zero points", 0,
 				game.getPoints());
 	}
+
+	@Test
+	public void testWrongPoints1(){
+		game.performMove(MoveDirection.SOUTH);
+        game.performMove(MoveDirection.WEST);
+        assertTrue("The no. of points should be zero but is not.",game.getPoints() > 0);
+	}
 	
 	@Test
 	public void testInitialBoardHeight() {
@@ -164,15 +171,24 @@ public class SimpleTests {
 
     @Test
     public void testWrongMovePossible1() {
-        // Attempt to check move possibility without adding any piece
-        assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.isMovePossible());
-    }
+    assertTrue(game.isMovePossible());
+	game.performMove(MoveDirection.SOUTH);
+    game.performMove(MoveDirection.WEST);
+	for(int i=0; i< game.getBoardHeight(); i++){
+		for (int j=0; j< game.getBoardWidth(); j++){
+			if((i+j)%2== 0){
+				game.setPieceAt(i, j, 4);
+			}else {
+				game.setPieceAt(i, j, 2);
+			}
+		}
+	}  
+	assertFalse("Expected no move to be possible", game.isMovePossible());
+	}
 
     @Test
     public void testWrongPerformMove1() {
-        // Attempt to perform move without adding any piece
-        assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class,
-                () -> game.performMove(MoveDirection.NORTH));
+		assertTrue("Expected move not performed", game.performMove(MoveDirection.NORTH));;
     }
 
     @Test
@@ -182,12 +198,6 @@ public class SimpleTests {
 
         // Attempt to perform move in a null direction
         assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.performMove(null));
-    }
-
-    @Test
-    public void testWrongPoints1() {
-        // Attempt to get points without making any moves
-        assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getPoints());
     }
 
 	@Test
