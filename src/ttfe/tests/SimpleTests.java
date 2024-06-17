@@ -248,6 +248,36 @@ public class SimpleTests {
 		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
 	}
 
+	@Test
+    public void testNoMove_possible() {
+		int [] [] ns ={
+			{2,4,2,4},
+			{4,2,4,2},
+			{2,4,2,4},
+			{4,2,4,2}
+		};
+		makeboard(ns);
+		assertFalse(game.isMovePossible(MoveDirection.EAST));
+		assertFalse(game.isMovePossible(MoveDirection.WEST));
+		assertFalse(game.isMovePossible(MoveDirection.NORTH));
+		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
+	}
+
+	@Test
+    public void testEveryMove_possible() {
+		int [] [] ns ={
+			{2,2,2,2},
+			{2,2,2,2},
+			{2,2,2,2},
+			{2,2,2,2}
+		};
+		makeboard(ns);
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+	}
+
     @Test
     public void testWrongPerformMove1() {
 		assertTrue("Not able to move in east",game.performMove(MoveDirection.EAST));
