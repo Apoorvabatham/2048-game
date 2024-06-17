@@ -188,6 +188,21 @@ public class SimpleTests {
 		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
 	}
 
+	@Test
+    public void testWrongMove_N_W_possible_S_E() {
+		int [] [] ns ={
+			{8,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0},
+			{0,0,0,0}
+		};
+		makeboard(ns);
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertFalse(game.isMovePossible(MoveDirection.WEST));
+		assertFalse(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+	}
+
     @Test
     public void testWrongPerformMove1() {
 		assertTrue("Not able to move in east",game.performMove(MoveDirection.EAST));
