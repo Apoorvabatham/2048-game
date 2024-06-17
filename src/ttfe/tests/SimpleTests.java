@@ -29,6 +29,12 @@ public class SimpleTests {
 	}
 
 	@Test
+	public void testConstructorWithInvalidBoardDimensions() {
+		assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(1, 1, new Random(0)));
+	}
+
+	@Test
 	public void testInitialBoardHeight() {
 		assertTrue("The initial game board did not have correct height",
 				4 == game.getBoardHeight());
@@ -77,14 +83,11 @@ public class SimpleTests {
 
 	@Test
     public void testWrongIsSpaceLeft1() {
-        // Fill the board completely
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
-        // This should return false
         assertFalse("Expected no space to be left on board", game.isSpaceLeft());
 
-        // Attempt to add piece when no space is left
         assertThrows("Expected IllegalStateException to be thrown", IllegalStateException.class, () -> game.addPiece());
     }
 	
@@ -110,6 +113,27 @@ public class SimpleTests {
         assertEquals("Expected piece value to be 0", 0, game.getPieceAt(0, 0));
     }
 
+	@Test
+	public void testGetPiece_invalidCoordinates() {
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getPieceAt(-1, 0));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getPieceAt(0, -1));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getPieceAt(4, 0));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getPieceAt(0, 4));
+	}
+
+	@Test
+	public void testSetPiece_invalidCoordinates() {
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.setPieceAt(-1, 0, 2));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.setPieceAt(0, -1, 2));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.setPieceAt(4, 0, 2));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.setPieceAt(0, 4, 2));
+	}
+
+	@Test
+	public void testSetPiece_of_invalidValue() {
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.setPieceAt(0, 0, -1));
+	}
+
     @Test
     public void testWrongAddPiece1() {
 		int sum =0;
@@ -130,16 +154,13 @@ public class SimpleTests {
 	}
 
     @Test
-    public void testWrongIsSpaceLeft2() {
-        // Ensure space is left initially
+    public void testWrongIsSpaceLeft2_full_board() {
         assertTrue("Expected space to be left on board", game.isSpaceLeft());
 
-        // Fill the board completely
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
 
-        // Space should no longer be left
         assertFalse("Expected no space to be left on board", game.isSpaceLeft());
     }
 
