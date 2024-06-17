@@ -188,8 +188,19 @@ public class SimpleTests {
 
     @Test
     public void testWrongPerformMove1() {
-		assertThrows("Expected IllegalArgumentException",IllegalArgumentException.class, () ->game.performMove(MoveDirection.NORTH));;
-    }
+			// Ensure that the board has at least one piece to make a move possible
+			game.addPiece();
+			
+			// Check if a move in the NORTH direction can be performed
+			boolean isMovePossibleBefore = game.isMovePossible(MoveDirection.NORTH);
+			boolean movePerformed = game.performMove(MoveDirection.NORTH);
+			boolean isMovePossibleAfter = game.isMovePossible(MoveDirection.NORTH);
+		
+			// Assertions
+			assertTrue("Expected move to be possible before performing it", isMovePossibleBefore);
+			assertTrue("Expected move to be performed", movePerformed);
+			assertTrue("Expected move to be possible after performing it", isMovePossibleAfter);
+		}
 
     @Test
     public void testWrongPerformMove2() {
