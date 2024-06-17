@@ -171,10 +171,12 @@ public class SimpleTests {
 		}
 		game.setPieceAt(0, 0, 8);
 		game.setPieceAt(0, 1, 8);
-		assertFalse("Expected move to be impossible in direction(N)", game.isMovePossible(MoveDirection.NORTH));
-		assertFalse("Expected move to be impossible in direction(S)", game.isMovePossible(MoveDirection.SOUTH));
-		assertTrue("Expected move to be possible in direction(E)", game.isMovePossible(MoveDirection.EAST));
-		assertTrue("Expected move to be possible in direction(W)", game.isMovePossible(MoveDirection.WEST));
+		assertFalse("Expected move to be impossible in direction(N)", game.isMovePossible(MoveDirection.EAST));
+		assertFalse("Expected move to be impossible in direction(S)", game.isMovePossible(MoveDirection.WEST));
+		assertTrue("Expected move to be possible in direction(E)", game.isMovePossible(MoveDirection.NORTH));
+		assertTrue("Expected move to be possible in direction(W)", game.isMovePossible(MoveDirection.SOUTH));
+
+
 
 
 		for(int i=0; i <game.getBoardHeight(); i++){
@@ -188,10 +190,10 @@ public class SimpleTests {
 		}
 		game.setPieceAt(0, 0, 8);
 		game.setPieceAt(1, 0, 8);
-		assertFalse("Expected move to be impossible in direction(E)", game.isMovePossible(MoveDirection.EAST));
-		assertFalse("Expected move to be impossible in direction(W)", game.isMovePossible(MoveDirection.WEST));
-		assertTrue("Expected move to be possible in direction(N)", game.isMovePossible(MoveDirection.NORTH));
-		assertTrue("Expected move to be possible in direction(S)", game.isMovePossible(MoveDirection.SOUTH));
+		assertFalse("Expected move to be impossible in direction(E)", game.isMovePossible(MoveDirection.NORTH));
+		assertFalse("Expected move to be impossible in direction(W)", game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue("Expected move to be possible in direction(N)", game.isMovePossible(MoveDirection.EAST));
+		assertTrue("Expected move to be possible in direction(S)", game.isMovePossible(MoveDirection.WEST));
 
 	}
 
