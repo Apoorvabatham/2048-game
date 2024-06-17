@@ -190,13 +190,13 @@ public class SimpleTests {
 
 	@Test
     public void testWrongMove_N_W_possible_S_E() {
-		int [] [] ns ={
+		int [] [] nw ={
 			{8,0,0,0},
 			{0,0,0,0},
 			{0,0,0,0},
 			{0,0,0,0}
 		};
-		makeboard(ns);
+		makeboard(nw);
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -205,13 +205,13 @@ public class SimpleTests {
 
 	@Test
     public void testWrongMove_N_E_possible_S_W() {
-		int [] [] ns ={
+		int [] [] ne ={
 			{0,0,0,2},
 			{0,0,0,0},
 			{0,0,0,0},
 			{0,0,0,0}
 		};
-		makeboard(ns);
+		makeboard(ne);
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -220,13 +220,13 @@ public class SimpleTests {
 
 	@Test
     public void testWrongMove_S_W_possible_N_E() {
-		int [] [] ns ={
+		int [] [] sw ={
 			{0,0,0,0},
 			{0,0,0,0},
 			{0,0,0,0},
 			{2,0,0,0}
 		};
-		makeboard(ns);
+		makeboard(sw);
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
@@ -235,13 +235,13 @@ public class SimpleTests {
 
 	@Test
     public void testWrongMove_S_E_possible_N_W() {
-		int [] [] ns ={
+		int [] [] se ={
 			{0,0,0,0},
 			{0,0,0,0},
 			{0,0,0,0},
 			{0,0,0,2}
 		};
-		makeboard(ns);
+		makeboard(se);
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
@@ -250,13 +250,13 @@ public class SimpleTests {
 
 	@Test
     public void testNoMove_possible() {
-		int [] [] ns ={
+		int [] [] no ={
 			{2,4,2,4},
 			{4,2,4,2},
 			{2,4,2,4},
 			{4,2,4,2}
 		};
-		makeboard(ns);
+		makeboard(no);
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -265,13 +265,13 @@ public class SimpleTests {
 
 	@Test
     public void testEveryMove_possible() {
-		int [] [] ns ={
+		int [] [] ev ={
 			{2,2,2,2},
 			{2,2,2,2},
 			{2,2,2,2},
 			{2,2,2,2}
 		};
-		makeboard(ns);
+		makeboard(ev);
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
