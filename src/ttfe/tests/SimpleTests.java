@@ -290,7 +290,7 @@ public class SimpleTests {
 	}
 
 	@Test
-    public void testEveryMove_possible() {
+    public void testEveryMove_possible_2everywhere() {
 		int [] [] ev ={
 			{2,2,2,2},
 			{2,2,2,2},
@@ -302,6 +302,81 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+	}
+
+	@Test
+    public void testEveryMove_possible() {
+		int [] [] e ={
+			{2,2,4,4},
+			{2,4,8,8},
+			{8,8,16,16},
+			{8,16,32,32}
+		};
+		makeboard(e);
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+	}
+
+	@Test
+	public void testIsMovePossible_MixedValuesBoard() {
+		int[][] mixed = {
+			{2, 0, 2, 4},
+			{0, 2, 4, 8},
+			{2, 4, 0, 16},
+			{4, 8, 16, 0}
+		};
+		makeboard(mixed);
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+	}
+
+
+	public void testEveryMove_BoardEmpty() {
+		int[][] empty = {
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+			{0, 0, 0, 0}
+		};
+		makeboard(empty);
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+	}
+
+	@Test
+	public void testMovePossible_isolated_tiles() {
+		int[][] isolated = {
+			{0, 0, 0, 0},
+			{0, 2, 0, 0},
+			{0, 0, 4, 0},
+			{0, 0, 0, 8}
+		};
+		makeboard(isolated);
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+	}
+
+	@Test
+	public void testIsMovePossible_OnlyOnePiece() {
+		int[][] one = {
+			{0, 0, 0, 0},
+			{0, 0, 0, 0},
+			{0, 2, 0, 0},
+			{0, 0, 0, 0}
+		};
+		makeboard(one);
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
 	}
 
     @Test
