@@ -188,7 +188,7 @@ public class SimpleTests {
 
     @Test
     public void testWrongPerformMove1() {
-		assertTrue("Expected move not performed", game.performMove(MoveDirection.NORTH));;
+		assertThrows("Expected IllegalArgumentException",IllegalArgumentException.class, () ->game.performMove(MoveDirection.NORTH));;
     }
 
     @Test
