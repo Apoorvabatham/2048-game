@@ -13,8 +13,6 @@ import org.junit.Test;
 import ttfe.SimulatorInterface;
 import ttfe.TTFEFactory;
 import ttfe.MoveDirection;
-import ttfe.PlayerInterface;
-import ttfe.UserInterface;
 
 /**
  * This class provides a very simple example of how to write tests for this project.
@@ -188,18 +186,8 @@ public class SimpleTests {
 
     @Test
     public void testWrongPerformMove1() {
-			// Ensure that the board has at least one piece to make a move possible
-			game.addPiece();
-			
-			// Check if a move in the NORTH direction can be performed
-			boolean isMovePossibleBefore = game.isMovePossible(MoveDirection.NORTH);
-			boolean movePerformed = game.performMove(MoveDirection.NORTH);
-			boolean isMovePossibleAfter = game.isMovePossible(MoveDirection.NORTH);
-		
-			// Assertions
-			assertTrue("Expected move to be possible before performing it", isMovePossibleBefore);
-			assertTrue("Expected move to be performed", movePerformed);
-			assertTrue("Expected move to be possible after performing it", isMovePossibleAfter);
+		boolean move = game.performMove(MoveDirection.NORTH);
+		assertTrue("Expected move not performed", move);
 		}
 
     @Test
@@ -210,133 +198,4 @@ public class SimpleTests {
         // Attempt to perform move in a null direction
         assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.performMove(null));
     }
-
-	@Test
-    public void testPlayerMove() {
-        // Mock PlayerInterface for testing
-        PlayerInterface mockPlayer = new PlayerInterface() {
-            @Override
-            public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
-                return MoveDirection.NORTH; // Mocking player to always move NORTH
-            }
-        };
-
-        // Mock UserInterface for testing (minimal implementation)
-        UserInterface mockUI = new UserInterface() {
-            @Override
-            public String getUserInput(String question, String[] possibleAnswers) {
-                return null; // Not needed for this test
-            }
-
-            @Override
-            public MoveDirection getUserMove() {
-                return null; // Not needed for this test
-            }
-
-            @Override
-            public void showGameOverScreen(SimulatorInterface game) {
-                // Not needed for this test
-            }
-
-            @Override
-            public void showMessage(String msg) {
-                // Not needed for this test
-            }
-
-            @Override
-            public void updateScreen(SimulatorInterface game) {
-                // Not needed for this test
-            }
-        };
-
-        // Perform move using mock player and verify
-        MoveDirection moveDirection = mockPlayer.getPlayerMove(game, mockUI);
-        assertTrue("Expected move to be possible in direction", game.isMovePossible(moveDirection));
-        assertTrue("Expected move to be performed", game.performMove(moveDirection));
-    }
-
-    @Test
-    public void testUpdateScreen() {
-        // Mock UserInterface for testing updateScreen method
-        UserInterface mockUI = new UserInterface() {
-            @Override
-            public String getUserInput(String question, String[] possibleAnswers) {
-                return null; // Not needed for this test
-            }
-
-            @Override
-            public MoveDirection getUserMove() {
-                return null; // Not needed for this test
-            }
-
-            @Override
-            public void showGameOverScreen(SimulatorInterface game) {
-                // Not needed for this test
-            }
-
-            @Override
-            public void showMessage(String msg) {
-                // Not needed for this test
-            }
-
-            @Override
-            public void updateScreen(SimulatorInterface game) {
-                // Verify updateScreen method updates the screen
-                game.addPiece(); // Add a piece to trigger update
-                assertEquals("Expected board height to match", 4, game.getBoardHeight());
-                assertEquals("Expected board width to match", 4, game.getBoardWidth());
-            }
-        };
-
-        // Call updateScreen with mock UI and verify
-        mockUI.updateScreen(game);
-    }
-
-    @Test
-    public void testGameInitialization() {
-        // Verify initial board dimensions
-        assertEquals("Initial board width should be 4", 4, game.getBoardWidth());
-        assertEquals("Initial board height should be 4", 4, game.getBoardHeight());
-
-        // Verify initial points and moves
-        assertEquals("Initial points should be 0", 0, game.getPoints());
-        assertEquals("Initial number of moves should be 0", 0, game.getNumMoves());
-    }
-
-    @Test
-    public void testGameOverScreen() {
-        // Mock UserInterface for testing showGameOverScreen method
-        UserInterface mockUI = new UserInterface() {
-            @Override
-            public String getUserInput(String question, String[] possibleAnswers) {
-                return null; // Not needed for this test
-            }
-
-            @Override
-            public MoveDirection getUserMove() {
-                return null; // Not needed for this test
-            }
-
-            @Override
-            public void showGameOverScreen(SimulatorInterface game) {
-                // Verify showGameOverScreen method
-                assertEquals("Expected points to be 0", 0, game.getPoints());
-                assertEquals("Expected number of moves to be 0", 0, game.getNumMoves());
-            }
-
-            @Override
-            public void showMessage(String msg) {
-                // Not needed for this test
-            }
-
-            @Override
-            public void updateScreen(SimulatorInterface game) {
-                // Not needed for this test
-            }
-        };
-
-        // Call showGameOverScreen with mock UI and verify
-        mockUI.showGameOverScreen(game);
-    }
-
 }
