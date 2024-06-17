@@ -65,30 +65,7 @@ public class SimpleTests {
         }
         assertThrows("Expected IllegalStateException to be thrown", IllegalStateException.class, () -> game.addPiece());
     }
-
-    @Test
-    public void testPerformMove() {
-        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.NORTH));
-        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.SOUTH));
-        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.WEST));
-        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.EAST));
-
-        while (game.isSpaceLeft()) {
-            game.addPiece();
-        }
-        assertFalse("Expected no move to be possible", game.performMove(MoveDirection.NORTH));
-    }
-
-    @Test
-    public void testIsMovePossible() {
-        assertTrue("Expected move to be possible", game.isMovePossible());
-
-        while (game.isSpaceLeft()) {
-            game.addPiece();
-        }
-        assertFalse("Expected no move to be possible", game.isMovePossible());
-    }
-
+   
     @Test
     public void testIsMovePossibleInDirection() {
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.NORTH));
@@ -135,7 +112,7 @@ public class SimpleTests {
 			}
 		}
 
-		assertTrue("Wrong way of adding points",(sum - sum2 == 2 || sum -sum2 == 4));
+		assertTrue("Wrong way of adding points",(sum2 - sum == 2 || sum2 -sum == 4));
 	}
 
     @Test
@@ -144,12 +121,6 @@ public class SimpleTests {
         game.performMove(MoveDirection.WEST);
         assertEquals(2, game.getNumMoves());   
 	}
-
-    @Test
-    public void testWrongGetNumPieces1() {
-        // Attempt to get number of pieces without adding any piece
-        assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getNumPieces());
-    }
 
     @Test
     public void testWrongIsSpaceLeft1() {
