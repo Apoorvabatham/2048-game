@@ -29,9 +29,14 @@ public class SimpleTests {
 	}
 
 	@Test
-	public void testConstructorWithInvalidBoardDimensions() {
+	public void testConstructor_invalidBoardDimensions() {
 		assertThrows("Expected IllegalArgumentException for invalid board dimensions",
 				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(1, 1, new Random(0)));
+	}
+
+	@Test
+	public void testConstructor_zero_RandomGenerator() {
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 4, null));
 	}
 
 	@Test
@@ -165,7 +170,7 @@ public class SimpleTests {
     }
 
 	@Test
-    public void testIsMovePossibleInDirection() {
+    public void testIsMovePossible_In_any_Direction() {
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.NORTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.SOUTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.WEST));
@@ -309,12 +314,14 @@ public class SimpleTests {
 
     @Test
     public void testWrongPerformMove2() {
-        // Add a piece to the board
         game.addPiece();
-
-        // Attempt to perform move in a null direction
         assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.performMove(null));
     }
+
+	@Test
+	public void testRun_invalid_user_interface() {
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.run(null, null));
+	}
 
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
