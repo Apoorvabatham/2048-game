@@ -53,14 +53,90 @@ public class SimpleTests {
 		assertTrue("The initial game board did not have correct height",
 				4 == game.getBoardWidth());
 	}
-
+	
 	@Test
-    public void testWrongAddPiece1() {
+    public void testAddPiece() {
+        int initialNumPieces = game.getNumPieces();
+        game.addPiece();
+        assertEquals("Adding a piece did not increase the number of pieces", initialNumPieces + 1, game.getNumPieces());
+
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
         assertThrows("Expected IllegalStateException to be thrown", IllegalStateException.class, () -> game.addPiece());
     }
+
+    @Test
+    public void testPerformMove() {
+        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.NORTH));
+        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.SOUTH));
+        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.WEST));
+        assertTrue("Move was not possible when expected", game.performMove(MoveDirection.EAST));
+
+        while (game.isSpaceLeft()) {
+            game.addPiece();
+        }
+        assertFalse("Expected no move to be possible", game.performMove(MoveDirection.NORTH));
+    }
+
+    @Test
+    public void testIsMovePossible() {
+        assertTrue("Expected move to be possible", game.isMovePossible());
+
+        while (game.isSpaceLeft()) {
+            game.addPiece();
+        }
+        assertFalse("Expected no move to be possible", game.isMovePossible());
+    }
+
+    @Test
+    public void testIsMovePossibleInDirection() {
+        assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.NORTH));
+        assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.SOUTH));
+        assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.WEST));
+        assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.EAST));
+    }
+
+    @Test
+    public void testIsSpaceLeft() {
+        assertTrue("Expected space to be left on board", game.isSpaceLeft());
+
+        while (game.isSpaceLeft()) {
+            game.addPiece();
+        }
+        assertFalse("Expected no space to be left on board", game.isSpaceLeft());
+    }
+
+    @Test
+    public void testSetAndGetPieceAt() {
+        game.setPieceAt(0, 0, 2);
+        assertEquals("Expected piece value to match", 2, game.getPieceAt(0, 0));
+
+        game.setPieceAt(1, 1, 4);
+        assertEquals("Expected piece value to match", 4, game.getPieceAt(1, 1));
+
+        game.setPieceAt(0, 0, 0);
+        assertEquals("Expected piece value to be 0", 0, game.getPieceAt(0, 0));
+    }
+
+    @Test
+    public void testWrongAddPiece1() {
+		int sum =0;
+		int sum2 =0;
+		for(int i=0; i<game.getBoardHeight(); i++){
+			for(int j=0; j<game.getBoardWidth(); j++){
+				sum += game.getPieceAt(i,j);
+			}
+		}
+		game.addPiece();
+		for(int i=0; i<game.getBoardHeight(); i++){
+			for(int j=0; j<game.getBoardWidth(); j++){
+				sum2 += game.getPieceAt(i,j);
+			}
+		}
+
+		assertTrue("Wrong way of adding points",(sum - sum2 == 2 || sum -sum2 == 4));
+	}
 
     @Test
     public void testWrongGetNumMoves1() {
@@ -103,14 +179,13 @@ public class SimpleTests {
     }
 
     @Test
-    public void testWrongMovePossible1() {
-	}
+    public void testWrongMovePossible1() {}
 
     @Test
     public void testWrongPerformMove1() {
 		boolean move = game.performMove(MoveDirection.NORTH);
-		assertTrue("Expected move not performed", move);
-	}
+		assertTrue("Expected move", move);
+		}
 
     @Test
     public void testWrongPerformMove2() {
