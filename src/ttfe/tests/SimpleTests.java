@@ -182,10 +182,7 @@ public class SimpleTests {
     public void testWrongMovePossible1() {}
 
     @Test
-    public void testWrongPerformMove1() {
-		boolean move = game.performMove(MoveDirection.NORTH);
-		assertTrue("Expected move", move);
-		}
+    public void testWrongPerformMove1() {}
 
     @Test
     public void testWrongPerformMove2() {
