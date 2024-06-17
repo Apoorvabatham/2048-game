@@ -51,12 +51,10 @@ public class SimpleTests {
 	
 	@Test
     public void testAddPiece() {
-        // Test adding pieces and verifying the number of pieces on the board
         int initialNumPieces = game.getNumPieces();
         game.addPiece();
         assertEquals("Adding a piece did not increase the number of pieces", initialNumPieces + 1, game.getNumPieces());
 
-        // Ensure IllegalStateException is thrown when attempting to add piece to a full board
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
@@ -65,13 +63,11 @@ public class SimpleTests {
 
     @Test
     public void testPerformMove() {
-        // Perform moves in different directions and verify if a move was performed
         assertTrue("Move was not possible when expected", game.performMove(MoveDirection.NORTH));
         assertTrue("Move was not possible when expected", game.performMove(MoveDirection.SOUTH));
         assertTrue("Move was not possible when expected", game.performMove(MoveDirection.WEST));
         assertTrue("Move was not possible when expected", game.performMove(MoveDirection.EAST));
 
-        // Verify that no move is possible when the board is full
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
@@ -82,7 +78,6 @@ public class SimpleTests {
     public void testIsMovePossible() {
         assertTrue("Expected move to be possible", game.isMovePossible());
 
-        // Fill the board to prevent further moves and verify no move is possible
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
@@ -91,7 +86,6 @@ public class SimpleTests {
 
     @Test
     public void testIsMovePossibleInDirection() {
-        // Verify move possibility in specific directions
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.NORTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.SOUTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.WEST));
@@ -102,7 +96,6 @@ public class SimpleTests {
     public void testIsSpaceLeft() {
         assertTrue("Expected space to be left on board", game.isSpaceLeft());
 
-        // Fill the board completely and verify no space is left
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
@@ -111,34 +104,30 @@ public class SimpleTests {
 
     @Test
     public void testSetAndGetPieceAt() {
-        // Test setting and getting piece at various positions
         game.setPieceAt(0, 0, 2);
         assertEquals("Expected piece value to match", 2, game.getPieceAt(0, 0));
 
-        // Test setting and getting piece at another position
         game.setPieceAt(1, 1, 4);
         assertEquals("Expected piece value to match", 4, game.getPieceAt(1, 1));
 
-        // Test setting piece to 0 (removing piece)
         game.setPieceAt(0, 0, 0);
         assertEquals("Expected piece value to be 0", 0, game.getPieceAt(0, 0));
     }
 
     @Test
     public void testWrongAddPiece1() {
-        // Fill the board completely
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
-        // This should throw IllegalStateException
         assertThrows("Expected IllegalStateException to be thrown", IllegalStateException.class, () -> game.addPiece());
     }
 
     @Test
     public void testWrongGetNumMoves1() {
-        // Attempt to get number of moves without performing any move
-        assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.getNumMoves());
-    }
+		game.performMove(MoveDirection.SOUTH);
+        game.performMove(MoveDirection.WEST);
+        assertEquals(2, game.getNumMoves());   
+	}
 
     @Test
     public void testWrongGetNumPieces1() {
