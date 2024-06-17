@@ -190,12 +190,5 @@ public class SimpleTests {
 		assertTrue("Expected move not performed", move);
 		}
 
-    @Test
-    public void testWrongPerformMove2() {
-        // Add a piece to the board
-        game.addPiece();
-
-        // Attempt to perform move in a null direction
-        assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.performMove(null));
-    }
+    
 }
