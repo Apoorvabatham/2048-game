@@ -159,7 +159,34 @@ public class SimpleTests {
 	}
 
     @Test
-    public void testWrongMovePossible1() {}
+    public void testWrongMove_E_W_possible_S_N() {
+		int [] [] ns ={
+			{2,4,2,4},
+			{2,4,2,4},
+			{8,64,8,64},
+			{8,64,8,64}
+		};
+		makeboard(ns);
+		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible(MoveDirection.NORTH));
+		assertFalse(game.isMovePossible(MoveDirection.EAST));
+		assertFalse(game.isMovePossible(MoveDirection.WEST));
+	}
+
+	@Test
+    public void testWrongMove_N_S_possible_E_W() {
+		int [] [] ns ={
+			{8,8,2,2},
+			{64,64,4,4},
+			{8,8,2,2},
+			{64,64,4,4}
+		};
+		makeboard(ns);
+		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible(MoveDirection.WEST));
+		assertFalse(game.isMovePossible(MoveDirection.NORTH));
+		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
+	}
 
     @Test
     public void testWrongPerformMove1() {
@@ -177,4 +204,10 @@ public class SimpleTests {
         // Attempt to perform move in a null direction
         assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.performMove(null));
     }
+
+	private void makeboard (int [] [] board){
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				game.setPieceAt(j, i, board[i][j]);
+	}}}
 }
