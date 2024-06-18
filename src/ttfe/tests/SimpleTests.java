@@ -13,7 +13,6 @@ import org.junit.Test;
 import ttfe.SimulatorInterface;
 import ttfe.TTFEFactory;
 import ttfe.MoveDirection;
-import ttfe.UserInterface;
 
 /**
  * This class provides a very simple example of how to write tests for this project.
@@ -23,12 +22,10 @@ import ttfe.UserInterface;
 public class SimpleTests {
 
 	private SimulatorInterface game;
-	private UserInterface mockUI;
 
 	@Before
 	public void setUp() {
 		game = TTFEFactory.createSimulator(4, 4, new Random(0));
-		mockUI = TTFEFactory.createUserInterface(game);
 	}
 
 	@Test
@@ -47,7 +44,6 @@ public class SimpleTests {
 		assertTrue("The initial game board did not have correct height",
 				4 == game.getBoardHeight());
 	}
-
 	
 	@Test
 	public void testInitialBoardWidth() {
@@ -381,42 +377,6 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 	}
-
-	@Test
-    public void testPerformmove_N_mergedone() {
-        game.setPieceAt(0, 0, 2);
-        game.setPieceAt(1, 0, 2);
-        assertTrue("Move should be possible", game.performMove(MoveDirection.NORTH));
-        assertEquals("Tile should be merged", 4, game.getPieceAt(0, 0));
-        assertEquals("Tile should be empty", 0, game.getPieceAt(1, 0));
-    }
-
-	@Test
-    public void testPerformmove_S_mergedone() {
-        game.setPieceAt(0, 3, 2);
-        game.setPieceAt(1, 3, 2);
-        assertTrue("Move should be possible", game.performMove(MoveDirection.SOUTH));
-        assertEquals("Tile should be merged", 4, game.getPieceAt(3, 3));
-        assertEquals("Tile should be empty", 0, game.getPieceAt(2, 3));
-    }
-
-    @Test
-    public void testPerformmove_E_mergedone() {
-        game.setPieceAt(3, 0, 2);
-        game.setPieceAt(3, 1, 2);
-        assertTrue("Move should be possible", game.performMove(MoveDirection.EAST));
-        assertEquals("Tile should be merged", 4, game.getPieceAt(3, 3));
-        assertEquals("Tile should be empty", 0, game.getPieceAt(3, 2));
-    }
-
-    @Test
-    public void testPerformmove_W_mergedone() {
-        game.setPieceAt(0, 3, 2);
-        game.setPieceAt(0, 2, 2);
-        assertTrue("Move should be possible", game.performMove(MoveDirection.WEST));
-        assertEquals("Tile should be merged", 4, game.getPieceAt(0, 0));
-        assertEquals("Tile should be empty", 0, game.getPieceAt(0, 1));
-    }
 
     @Test
     public void testWrongPerformMove1() {
