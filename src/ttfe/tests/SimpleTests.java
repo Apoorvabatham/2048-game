@@ -13,6 +13,7 @@ import org.junit.Test;
 import ttfe.SimulatorInterface;
 import ttfe.TTFEFactory;
 import ttfe.MoveDirection;
+import ttfe.UserInterface;
 
 /**
  * This class provides a very simple example of how to write tests for this project.
@@ -22,10 +23,12 @@ import ttfe.MoveDirection;
 public class SimpleTests {
 
 	private SimulatorInterface game;
+	private UserInterface mockUI;
 
 	@Before
 	public void setUp() {
 		game = TTFEFactory.createSimulator(4, 4, new Random(0));
+		mockUI = TTFEFactory.createUserInterface(game);
 	}
 
 	@Test
@@ -379,6 +382,59 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 	}
 
+	@Test
+    public void testPerformmove_N_mergedone() {
+        game.setPieceAt(0, 0, 2);
+        game.setPieceAt(1, 0, 2);
+		int initial = game.getPoints();
+        assertTrue("Move should be possible", game.performMove(MoveDirection.NORTH));
+        assertEquals("Tile should be merged", 4, game.getPieceAt(0, 0));
+        assertEquals("Tile should be empty", 0, game.getPieceAt(1, 0));
+		assertEquals("Points should be updated", initial + 4, game.getPoints());
+    }
+
+	@Test
+    public void testPerformmove_S_mergedone() {
+        game.setPieceAt(0, 3, 2);
+        game.setPieceAt(1, 3, 2);
+		int initial = game.getPoints();
+        assertTrue("Move should be possible", game.performMove(MoveDirection.SOUTH));
+        assertEquals("Tile should be merged", 4, game.getPieceAt(3, 3));
+        assertEquals("Tile should be empty", 0, game.getPieceAt(2, 3));
+		assertEquals("Points should be updated", initial + 4, game.getPoints());
+    }
+
+    @Test
+    public void testPerformmove_E_mergedone() {
+        game.setPieceAt(3, 0, 2);
+        game.setPieceAt(3, 1, 2);
+		int initial = game.getPoints();
+        assertTrue("Move should be possible", game.performMove(MoveDirection.EAST));
+        assertEquals("Tile should be merged", 4, game.getPieceAt(3, 3));
+        assertEquals("Tile should be empty", 0, game.getPieceAt(3, 2));
+		assertEquals("Points should be updated", initial + 4, game.getPoints());
+    }
+
+    @Test
+    public void testPerformmove_W_mergedone() {
+        game.setPieceAt(0, 3, 2);
+        game.setPieceAt(0, 2, 2);
+		int initial = game.getPoints();
+        assertTrue("Move should be possible", game.performMove(MoveDirection.WEST));
+        assertEquals("Tile should be merged", 4, game.getPieceAt(0, 0));
+        assertEquals("Tile should be empty", 0, game.getPieceAt(0, 1));
+		assertEquals("Points should be updated", initial + 4, game.getPoints());
+    }
+
+	@Test
+    public void testPerformmove_movepossible_but_noMerge() {
+        game.setPieceAt(0, 0, 2);
+        game.setPieceAt(1, 0, 4);
+        assertTrue("Move should be possible", game.performMove(MoveDirection.NORTH));
+        assertEquals("Tile should not be merged", 2, game.getPieceAt(0, 0));
+        assertEquals("Tile should not be merged", 4, game.getPieceAt(1, 0));
+    }
+
     @Test
     public void testWrongPerformMove1() {
 		assertTrue("Not able to move in east",game.performMove(MoveDirection.EAST));
@@ -397,6 +453,7 @@ public class SimpleTests {
 	public void testRun_invalid_user_interface() {
 		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.run(null, null));
 	}
+	
 
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
