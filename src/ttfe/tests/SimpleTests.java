@@ -174,6 +174,7 @@ public class SimpleTests {
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.SOUTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.WEST));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible());
     }
 
 	@Test
@@ -196,6 +197,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -211,6 +213,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
 		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -226,6 +229,7 @@ public class SimpleTests {
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -241,6 +245,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -256,6 +261,7 @@ public class SimpleTests {
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -271,6 +277,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -286,6 +293,7 @@ public class SimpleTests {
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
 		assertFalse(game.isMovePossible(MoveDirection.SOUTH));
+		assertFalse(game.isMovePossible());
 	}
 
 	@Test
@@ -301,6 +309,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -316,6 +325,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -331,6 +341,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible());
 	}
 
 
@@ -346,6 +357,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -361,6 +373,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible());
 	}
 
 	@Test
@@ -376,6 +389,7 @@ public class SimpleTests {
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
+		assertTrue(game.isMovePossible());
 	}
 
     @Test
