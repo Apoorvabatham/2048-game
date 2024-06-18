@@ -13,6 +13,7 @@ import org.junit.Test;
 import ttfe.SimulatorInterface;
 import ttfe.TTFEFactory;
 import ttfe.MoveDirection;
+import ttfe.UserInterface;
 
 /**
  * This class provides a very simple example of how to write tests for this project.
@@ -62,6 +63,18 @@ public class SimpleTests {
 		game.performMove(MoveDirection.SOUTH);
         game.performMove(MoveDirection.WEST);
         assertTrue("The no. of points should be zero but is not.",game.getPoints() > 0);
+	}
+
+	@Test
+	public void test_points_power_2(){
+		game.performMove(MoveDirection.SOUTH);
+        game.performMove(MoveDirection.WEST);
+		int points = game.getPoints();
+		boolean ans ;
+		if ( (points == 0) || (points == 2 )|| (points == 4) || (points ==8)|| (points == 16) || (points == 32) || (points == 64) || (points == 128)|| (points == 256)|| (points ==512)  || (points == 1024) || (points == 2048)) {
+			ans = true;
+		}else {ans = false;}
+        assertTrue("The no. of points should be power of 2", ans);
 	}
 
 	@Test
@@ -155,6 +168,18 @@ public class SimpleTests {
 		}
 
 		assertTrue("Wrong way of adding points",(sum2 - sum == 2 || sum2 -sum == 4));
+	}
+
+	@Test
+	public void test_piece_power_2(){
+		game.performMove(MoveDirection.SOUTH);
+        game.performMove(MoveDirection.WEST);
+		int points= game.getPieceAt(0,0);
+		boolean ans ;
+		if ( (points == 0) || (points == 2 )|| (points == 4) || (points ==8)|| (points == 16) || (points == 32) || (points == 64) || (points == 128)|| (points == 256)|| (points ==512)  || (points == 1024) || (points == 2048)) {
+			ans = true;
+		}else {ans = false;}
+        assertTrue("The no. of piece should be power of 2", ans);
 	}
 
     @Test
