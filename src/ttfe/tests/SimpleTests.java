@@ -71,7 +71,7 @@ public class SimpleTests {
         game.performMove(MoveDirection.WEST);
 		int points = game.getPoints();
 		boolean ans ;
-		if ( (points == 0) || (points == 2 )|| (points == 4) || (points ==8)|| (points == 16) || (points == 32) || (points == 64) || (points == 128)|| (points == 256)|| (points ==512)  || (points == 1024) || (points == 2048)) {
+		if ( (points %2) == 0) {
 			ans = true;
 		}else {ans = false;}
         assertTrue("The no. of points should be power of 2", ans);
