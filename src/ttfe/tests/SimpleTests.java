@@ -14,6 +14,7 @@ import ttfe.SimulatorInterface;
 import ttfe.TTFEFactory;
 import ttfe.MoveDirection;
 import ttfe.UserInterface;
+import ttfe.PlayerInterface;
 
 /**
  * This class provides a very simple example of how to write tests for this project.
@@ -435,7 +436,69 @@ public class SimpleTests {
 	public void testRun_invalid_user_interface() {
 		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.run(null, null));
 	}
-	
+
+	@Test
+	public void testRUn_NULL_player (){
+		UserInterface ui = TTFEFactory.createUserInterface(game);
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.run(null, ui));
+	}
+
+	@Test
+	public void testRUn_NULL_ui (){
+		PlayerInterface player = TTFEFactory.createPlayer(false);
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> game.run(player, null));
+	}
+
+	@Test
+    public void testRun_moves() {
+        UserInterface ui = TTFEFactory.createUserInterface(game);
+        PlayerInterface player = new PlayerInterface() {
+            private int count = 0;
+            	@Override
+            	public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
+                MoveDirection[] moves = {MoveDirection.NORTH, MoveDirection.EAST, MoveDirection.SOUTH, MoveDirection.WEST};
+                return moves[count++ % moves.length];
+            }
+        };
+        game.run(player, ui);
+        assertTrue("Moves should be performed", game.getNumMoves() > 0);
+    }
+
+	@Test
+    public void testRun_GAMEOVER_case() {
+        UserInterface ui = TTFEFactory.createUserInterface(game);
+        PlayerInterface player = new PlayerInterface() {
+            @Override
+            public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
+               return MoveDirection.SOUTH;
+            }
+        };
+
+        int[][] end = {
+            {2, 4, 8, 16},
+            {32, 64, 128, 256},
+            {512, 1024, 16, 8},
+            {32, 64, 128, 0} 
+        };
+        makeboard(end);
+        game.run(player, ui);
+        assertFalse("GAME should be over as no more is possible.", game.isMovePossible());
+    }
+
+	@Test
+    public void testRun_increase_in_points() {
+        UserInterface ui = TTFEFactory.createUserInterface(game);
+        PlayerInterface player = new PlayerInterface() {
+        private int count = 0;
+            @Override
+            public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
+                MoveDirection[] moves = {MoveDirection.NORTH, MoveDirection.EAST, MoveDirection.SOUTH, MoveDirection.WEST};
+                return moves[count++ % moves.length];
+            }
+        };
+        game.run(player, ui);
+        assertTrue("Points should be more than 0.", game.getPoints() > 0);
+    }
 
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
