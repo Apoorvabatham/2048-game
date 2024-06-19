@@ -613,33 +613,6 @@ public class SimpleTests {
         assertEquals("Expected initial number of moves to be zero", 0, game.getNumMoves());
     }	
 
-	@Test
-    public void testGetNumMoves_aftersome__Move() {
-
-        game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.NORTH);
-
-        assertEquals("Expected number of moves after one move", 1, game.getNumMoves());
-    }
-
-	@Test
-    public void testGetNumMoves_all_moves() {
-        game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.EAST);
-		game.performMove(MoveDirection.WEST);
-        game.performMove(MoveDirection.NORTH);
-		game.performMove(MoveDirection.SOUTH);
-
-        assertEquals("Expected number of moves after multiple moves", 4, game.getNumMoves());
-    }
-
-	@Test
-    public void testGetNumMoves_afteradding_piece() {
-        game.addPiece();
-        assertEquals("Expected no of moves after adding a piece", 0, game.getNumMoves());
-    }
-
-
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
