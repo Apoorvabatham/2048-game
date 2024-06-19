@@ -32,7 +32,8 @@ public class SimpleTests {
 
 	@Test
 	public void testConstructor_invalidBoardDimensions() {
-		assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+
+				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
 				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(1, 1, new Random(0)));
 				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
 				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(0, 0, new Random(0)));	
@@ -61,8 +62,7 @@ public class SimpleTests {
 
 	@Test
 	public void testInitialBoardHeight() {
-		assertTrue("The initial game board did not have correct height",
-				4 == game.getBoardHeight());
+		assertTrue("The initial game board did not have correct height",4 == game.getBoardHeight());
 	}
 	
 	@Test
@@ -97,6 +97,7 @@ public class SimpleTests {
 	public void test_morethan_zero_Points(){
 		game.performMove(MoveDirection.SOUTH);
         game.performMove(MoveDirection.WEST);
+
         assertTrue("The no. of points should be zero but is not.",game.getPoints() > 0);
 	}
 
@@ -104,19 +105,24 @@ public class SimpleTests {
 	public void test_points_power_2(){
 		game.performMove(MoveDirection.SOUTH);
         game.performMove(MoveDirection.WEST);
+
 		int points = game.getPoints();
 		boolean ans ;
+
 		if ( (points %2) == 0) {
 			ans = true;
 		}else {ans = false;}
+
         assertTrue("The no. of points should be power of 2", ans);
 	}
 
 	@Test
 	public void test_mergeFORtwo_two_Points(){
+
 		game.setPieceAt(0, 0, 2);
 		game.setPieceAt(0, 1, 2);
 		game.performMove(MoveDirection.WEST);
+
         assertEquals("The no. of points should be zero but is not.",4,game.getPoints());
 		assertEquals("Expected sum 4.",4, game.getPieceAt(0,0) );
 	}
@@ -202,12 +208,15 @@ public class SimpleTests {
     public void testWrongAddPiece1() {
 		int sum =0;
 		int sum2 =0;
+
 		for(int i=0; i<game.getBoardHeight(); i++){
 			for(int j=0; j<game.getBoardWidth(); j++){
 				sum += game.getPieceAt(i,j);
 			}
 		}
+		
 		game.addPiece();
+
 		for(int i=0; i<game.getBoardHeight(); i++){
 			for(int j=0; j<game.getBoardWidth(); j++){
 				sum2 += game.getPieceAt(i,j);
@@ -221,8 +230,10 @@ public class SimpleTests {
 	public void test_piece_power_2(){
 		game.performMove(MoveDirection.SOUTH);
         game.performMove(MoveDirection.WEST);
+
 		int points= game.getPieceAt(0,0);
 		boolean ans ;
+
 		if ( (points == 0) || (points == 2 )|| (points == 4) || (points ==8)|| (points == 16) || (points == 32) || (points == 64) || (points == 128)|| (points == 256)|| (points ==512)  || (points == 1024) || (points == 2048)) {
 			ans = true;
 		}else {ans = false;}
@@ -230,7 +241,7 @@ public class SimpleTests {
 	}
 
     @Test
-    public void testWrongIsSpaceLeft2_full_board() {
+    public void test_Wrong_IsSpaceLeft2_full_board() {
         assertTrue("Expected space to be left on board", game.isSpaceLeft());
 
         while (game.isSpaceLeft()) {
@@ -241,7 +252,7 @@ public class SimpleTests {
     }
 
 	@Test
-    public void testIsMovePossible_In_any_Direction() {
+    public void test_isMovePossible_In_any_Direction() {
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.NORTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.SOUTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.WEST));
@@ -265,6 +276,7 @@ public class SimpleTests {
 			{8,64,8,64}
 		};
 		makeboard(ns);
+
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
@@ -281,6 +293,7 @@ public class SimpleTests {
 			{64,64,4,4}
 		};
 		makeboard(ns);
+
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -297,6 +310,7 @@ public class SimpleTests {
 			{0,0,0,0}
 		};
 		makeboard(nw);
+
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -313,6 +327,7 @@ public class SimpleTests {
 			{0,0,0,0}
 		};
 		makeboard(ne);
+
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -329,6 +344,7 @@ public class SimpleTests {
 			{2,0,0,0}
 		};
 		makeboard(sw);
+		
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
@@ -345,6 +361,7 @@ public class SimpleTests {
 			{0,0,0,2}
 		};
 		makeboard(se);
+
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
@@ -361,6 +378,7 @@ public class SimpleTests {
 			{4,2,4,2}
 		};
 		makeboard(no);
+
 		assertFalse(game.isMovePossible(MoveDirection.EAST));
 		assertFalse(game.isMovePossible(MoveDirection.WEST));
 		assertFalse(game.isMovePossible(MoveDirection.NORTH));
@@ -377,6 +395,7 @@ public class SimpleTests {
 			{2,2,2,2}
 		};
 		makeboard(ev);
+
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
@@ -393,6 +412,7 @@ public class SimpleTests {
 			{8,16,32,32}
 		};
 		makeboard(e);
+
 		assertTrue(game.isMovePossible(MoveDirection.EAST));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
@@ -409,6 +429,7 @@ public class SimpleTests {
 			{4, 8, 16, 0}
 		};
 		makeboard(mixed);
+
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
@@ -425,6 +446,7 @@ public class SimpleTests {
 			{0, 0, 0, 0}
 		};
 		makeboard(empty);
+
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
@@ -441,6 +463,7 @@ public class SimpleTests {
 			{0, 0, 0, 8}
 		};
 		makeboard(isolated);
+
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
@@ -457,6 +480,7 @@ public class SimpleTests {
 			{0, 0, 0, 0}
 		};
 		makeboard(one);
+
 		assertTrue(game.isMovePossible(MoveDirection.NORTH));
 		assertTrue(game.isMovePossible(MoveDirection.SOUTH));
 		assertTrue(game.isMovePossible(MoveDirection.WEST));
@@ -500,6 +524,7 @@ public class SimpleTests {
         UserInterface ui = TTFEFactory.createUserInterface(game);
         PlayerInterface player = new PlayerInterface() {
             private int count = 0;
+
             	@Override
             	public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
                 MoveDirection[] moves = {MoveDirection.NORTH, MoveDirection.EAST, MoveDirection.SOUTH, MoveDirection.WEST};
@@ -507,12 +532,14 @@ public class SimpleTests {
             }
         };
         game.run(player, ui);
+
         assertTrue("Moves should be performed", game.getNumMoves() > 0);
     }
 
 	@Test
     public void testRun_GAMEOVER_case() {
         UserInterface ui = TTFEFactory.createUserInterface(game);
+
         PlayerInterface player = new PlayerInterface() {
             @Override
             public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
@@ -526,6 +553,7 @@ public class SimpleTests {
             {512, 1024, 16, 8},
             {32, 64, 128, 0} 
         };
+
         makeboard(end);
         game.run(player, ui);
         assertFalse("GAME should be over as no more is possible.", game.isMovePossible());
@@ -534,6 +562,7 @@ public class SimpleTests {
 	@Test
     public void testRun_increase_in_points() {
         UserInterface ui = TTFEFactory.createUserInterface(game);
+
         PlayerInterface player = new PlayerInterface() {
         private int count = 0;
             @Override
@@ -542,6 +571,7 @@ public class SimpleTests {
                 return moves[count++ % moves.length];
             }
         };
+
         game.run(player, ui);
         assertTrue("Points should be more than 0.", game.getPoints() > 0);
     }
@@ -549,8 +579,10 @@ public class SimpleTests {
 	@Test
     public void testRun_gameRunsWell() {
         UserInterface ui = TTFEFactory.createUserInterface(game);
+
         PlayerInterface player = new PlayerInterface() {
             private int count = 0;
+
             @Override
             public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
                 MoveDirection[] moves = {MoveDirection.NORTH, MoveDirection.EAST, MoveDirection.SOUTH, MoveDirection.WEST};
@@ -558,6 +590,7 @@ public class SimpleTests {
             }
         };
         game.run(player, ui);
+
         while (game.isMovePossible()) {
             game.run(player, ui);
         }
@@ -567,6 +600,7 @@ public class SimpleTests {
 	@Test
     public void testRun_randomMoves() {
         UserInterface ui = TTFEFactory.createUserInterface(game);
+
         PlayerInterface player = new PlayerInterface() {
             private Random random = new Random();
 
@@ -576,6 +610,7 @@ public class SimpleTests {
                 return moves[random.nextInt(moves.length)];
             }
         };
+
         game.run(player, ui);
 		assertTrue("Moves should be performed.", game.getNumMoves() > 0);
     }
@@ -592,6 +627,7 @@ public class SimpleTests {
          {0,0,0,8}
         };
         makeboard(isolate);
+
         game.run(player, ui);
         assertTrue("Moves should be performed.", game.getNumMoves() > 0);
     }
@@ -599,6 +635,7 @@ public class SimpleTests {
     @Test
     public void testRun_invalid_moves() {
         UserInterface ui = TTFEFactory.createUserInterface(game);
+		
         PlayerInterface player = new PlayerInterface() {
             @Override
             public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
@@ -606,6 +643,48 @@ public class SimpleTests {
             }
         };
         assertThrows(IllegalArgumentException.class, () -> game.run(player, ui));
+    }
+
+	@Test
+    public void testGetNumMoves_initialState() {
+        assertEquals("Expected initial number of moves to be zero", 0, game.getNumMoves());
+    }	
+
+	@Test
+    public void testGetNumMoves_aftersome__Move() {
+
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.NORTH);
+
+        assertEquals("NO. of moves after one move should be 1.", 1, game.getNumMoves());
+    }
+
+	@Test
+    public void testGetNumMoves_all_moves() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.EAST);
+		game.performMove(MoveDirection.WEST);
+        game.performMove(MoveDirection.NORTH);
+		game.performMove(MoveDirection.SOUTH);
+
+        assertEquals("Number of moves after multiple moves does not match up.", 4, game.getNumMoves());
+    }
+
+	@Test
+    public void testGetNumMoves_afteradding_piece() {
+        game.addPiece();
+        assertEquals("No. of moves after adding a piece does not match.", 0, game.getNumMoves());
+    }
+
+
+    @Test
+    public void testGetNumMoves_afterperforming_move_and_addingPiece() {
+
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.SOUTH);
+        game.addPiece();
+
+        assertEquals("No. of moves should be 1 here.", 1, game.getNumMoves());
     }
 
 	private void makeboard (int [] [] board){
