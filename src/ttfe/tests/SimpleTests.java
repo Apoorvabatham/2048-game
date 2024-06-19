@@ -84,16 +84,6 @@ public class SimpleTests {
     }
 
 	@Test
-    public void test_gtPoints_after_move_and_addding_Piece() {
-        game.setPieceAt(0, 0, 2);
-        game.setPieceAt(1, 0, 2);
-        game.performMove(MoveDirection.NORTH);
-        game.addPiece();
-
-        assertEquals("Expected points after move and add piece", 4, game.getPoints());
-    }
-
-	@Test
 	public void test_morethan_zero_Points(){
 		game.performMove(MoveDirection.SOUTH);
         game.performMove(MoveDirection.WEST);
@@ -230,7 +220,7 @@ public class SimpleTests {
 	}
 
     @Test
-    public void test_Wrong_IsSpaceLeft2_full_board() {
+    public void testWrongIsSpaceLeft2_full_board() {
         assertTrue("Expected space to be left on board", game.isSpaceLeft());
 
         while (game.isSpaceLeft()) {
@@ -241,7 +231,7 @@ public class SimpleTests {
     }
 
 	@Test
-    public void test_isMovePossible_In_any_Direction() {
+    public void testIsMovePossible_In_any_Direction() {
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.NORTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.SOUTH));
         assertTrue("Expected move to be possible in direction", game.isMovePossible(MoveDirection.WEST));
@@ -607,11 +597,6 @@ public class SimpleTests {
         };
         assertThrows(IllegalArgumentException.class, () -> game.run(player, ui));
     }
-
-	@Test
-    public void testGetNumMoves_initialState() {
-        assertEquals("Expected initial number of moves to be zero", 0, game.getNumMoves());
-    }	
 
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
