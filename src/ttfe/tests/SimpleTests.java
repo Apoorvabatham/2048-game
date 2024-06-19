@@ -78,6 +78,22 @@ public class SimpleTests {
 	}
 
 	@Test
+    public void test_getPoints_after_adding_Piece() {
+        game.addPiece();
+        assertEquals(0, game.getPoints());
+    }
+
+	@Test
+    public void test_gtPoints_after_move_and_addding_Piece() {
+        game.setPieceAt(0, 0, 2);
+        game.setPieceAt(1, 0, 2);
+        game.performMove(MoveDirection.NORTH);
+        game.addPiece();
+
+        assertEquals("Expected points after move and add piece", 4, game.getPoints());
+    }
+
+	@Test
 	public void test_morethan_zero_Points(){
 		game.performMove(MoveDirection.SOUTH);
         game.performMove(MoveDirection.WEST);
@@ -104,6 +120,18 @@ public class SimpleTests {
         assertEquals("The no. of points should be zero but is not.",4,game.getPoints());
 		assertEquals("Expected sum 4.",4, game.getPieceAt(0,0) );
 	}
+
+	@Test
+    public void test_getPoints_multiple_moves() {
+        game.setPieceAt(0, 0, 2);
+        game.setPieceAt(0, 1, 2);
+        game.performMove(MoveDirection.WEST);
+        game.performMove(MoveDirection.EAST);
+        game.performMove(MoveDirection.NORTH);
+		game.performMove(MoveDirection.SOUTH);
+
+        assertEquals("Points dont add up correctly.", 4, game.getPoints());
+    }
 	
 	@Test
     public void testAddPiece() {
