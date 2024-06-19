@@ -34,12 +34,30 @@ public class SimpleTests {
 	public void testConstructor_invalidBoardDimensions() {
 		assertThrows("Expected IllegalArgumentException for invalid board dimensions",
 				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(1, 1, new Random(0)));
+				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(0, 0, new Random(0)));	
+				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(0, 4, new Random(0)));
+				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 0, new Random(0)));	
+				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(-1, 4, new Random(0)));
+				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
+				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, -1, new Random(0)));
 	}
 
 	@Test
 	public void testConstructor_zero_RandomGenerator() {
 		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 4, null));
 	}
+
+	@Test
+    public void testConstructor_differentRandomSeeds() {
+        SimulatorInterface game1 = TTFEFactory.createSimulator(4, 4, new Random(0));
+        SimulatorInterface game2 = TTFEFactory.createSimulator(4, 4, new Random(1));
+
+        assertTrue("Expected games with different seeds to have different initial states",(game1 !=game2));
+    }
 
 	@Test
 	public void testInitialBoardHeight() {
