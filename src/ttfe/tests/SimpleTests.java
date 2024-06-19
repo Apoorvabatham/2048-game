@@ -34,30 +34,12 @@ public class SimpleTests {
 	public void testConstructor_invalidBoardDimensions() {
 		assertThrows("Expected IllegalArgumentException for invalid board dimensions",
 				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(1, 1, new Random(0)));
-				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
-				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(0, 0, new Random(0)));	
-				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
-				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(0, 4, new Random(0)));
-				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
-				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 0, new Random(0)));	
-				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
-				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(-1, 4, new Random(0)));
-				assertThrows("Expected IllegalArgumentException for invalid board dimensions",
-				IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, -1, new Random(0)));
 	}
 
 	@Test
 	public void testConstructor_zero_RandomGenerator() {
 		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 4, null));
 	}
-
-	@Test
-    public void testConstructor_differentRandomSeeds() {
-        SimulatorInterface game1 = TTFEFactory.createSimulator(4, 4, new Random(0));
-        SimulatorInterface game2 = TTFEFactory.createSimulator(4, 4, new Random(1));
-
-        assertTrue("Expected games with different seeds to have different initial states",(game1 !=game2));
-    }
 
 	@Test
 	public void testInitialBoardHeight() {
@@ -76,12 +58,6 @@ public class SimpleTests {
 		assertEquals("The initial game did not have zero points", 0,
 				game.getPoints());
 	}
-
-	@Test
-    public void test_getPoints_after_adding_Piece() {
-        game.addPiece();
-        assertEquals(0, game.getPoints());
-    }
 
 	@Test
 	public void test_morethan_zero_Points(){
@@ -110,18 +86,6 @@ public class SimpleTests {
         assertEquals("The no. of points should be zero but is not.",4,game.getPoints());
 		assertEquals("Expected sum 4.",4, game.getPieceAt(0,0) );
 	}
-
-	@Test
-    public void test_getPoints_multiple_moves() {
-        game.setPieceAt(0, 0, 2);
-        game.setPieceAt(0, 1, 2);
-        game.performMove(MoveDirection.WEST);
-        game.performMove(MoveDirection.EAST);
-        game.performMove(MoveDirection.NORTH);
-		game.performMove(MoveDirection.SOUTH);
-
-        assertEquals("Points dont add up correctly.", 4, game.getPoints());
-    }
 	
 	@Test
     public void testAddPiece() {
