@@ -39,6 +39,10 @@ public class SimpleTests {
 	@Test
 	public void testConstructor_zero_RandomGenerator() {
 		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 4, null));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(0, 4, new Random(0)));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, 0, new Random(0)));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(-1, 4, new Random(0)));
+		assertThrows("Expected IllegalArgumentException", IllegalArgumentException.class, () -> TTFEFactory.createSimulator(4, -1, new Random(0)));
 	}
 
 	@Test
