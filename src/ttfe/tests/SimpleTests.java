@@ -532,6 +532,53 @@ public class SimpleTests {
         assertEquals("Expected number of moves after move and add piece", 1, game.getNumMoves());
     }
 
+	@Test
+    public void testGetNumPieces_initialState() {
+        assertEquals("Expected initial number of pieces to be zero", 0, game.getNumPieces());
+    }
+
+    @Test
+    public void testGetNumPieces_afterAddPiece() {
+        game.addPiece();
+        assertEquals("Expected number of pieces after adding one piece", 1, game.getNumPieces());
+    }
+
+    @Test
+    public void testGetNumPieces_afterMultipleAdds() {
+        game.addPiece();
+        game.addPiece();
+        game.addPiece();
+
+        assertEquals("Expected number of pieces after adding multiple pieces", 3, game.getNumPieces());
+    }
+
+    @Test
+    public void testGetNumPieces_afterPerformMove() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.WEST);
+
+        assertEquals("Expected number of pieces after performing a move", 1, game.getNumPieces());
+    }
+
+    @Test
+    public void testGetNumPieces_afterPerformMoveAndAddPiece() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.WEST);
+        game.addPiece();
+
+        assertEquals("Expected number of pieces after move and adding a piece", 2, game.getNumPieces());
+    }
+
+    @Test
+    public void testGetNumPieces_fullBoard() {
+        // Fill up the board completely
+        while (game.isSpaceLeft()) {
+            game.addPiece();
+        }
+
+        assertEquals("Expected number of pieces on a full board", game.getBoardHeight() * game.getBoardWidth(), game.getNumPieces());
+    }
+
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
