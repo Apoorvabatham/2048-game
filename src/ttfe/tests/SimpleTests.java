@@ -489,6 +489,49 @@ public class SimpleTests {
         assertFalse("GAME should be over as no more is possible.", game.isMovePossible());
     }
 
+	@Test
+    public void testGetNumMoves_initialState() {
+        assertEquals("Expected initial number of moves to be zero", 0, game.getNumMoves());
+    }
+
+    @Test
+    public void testGetNumMoves_afterPerformMove() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.WEST);
+
+        assertEquals("Expected number of moves after one move", 1, game.getNumMoves());
+    }
+
+    @Test
+    public void testGetNumMoves_multipleMoves() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.WEST);
+        game.performMove(MoveDirection.EAST);
+        game.performMove(MoveDirection.NORTH);
+
+        assertEquals("Expected number of moves after multiple moves", 3, game.getNumMoves());
+    }
+
+    @Test
+    public void testGetNumMoves_noMoves() {
+        assertEquals("Expected number of moves with no moves", 0, game.getNumMoves());
+    }
+
+    @Test
+    public void testGetNumMoves_afterAddPiece() {
+        game.addPiece();
+        assertEquals("Expected number of moves after adding a piece", 0, game.getNumMoves());
+    }
+
+    @Test
+    public void testGetNumMoves_afterPerformMoveAndAddPiece() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.WEST);
+        game.addPiece();
+
+        assertEquals("Expected number of moves after move and add piece", 1, game.getNumMoves());
+    }
+
 	private void makeboard (int [] [] board){
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
