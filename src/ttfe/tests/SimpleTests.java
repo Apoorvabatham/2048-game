@@ -495,41 +495,43 @@ public class SimpleTests {
     }
 
     @Test
-    public void testGetNumMoves_afterPerformMove() {
+    public void test_getNumMoves_afterperforming_moves() {
         game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.WEST);
-
-        assertEquals("Expected number of moves after one move", 1, game.getNumMoves());
-    }
-
-    @Test
-    public void testGetNumMoves_multipleMoves() {
-        game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.WEST);
         game.performMove(MoveDirection.EAST);
-        game.performMove(MoveDirection.NORTH);
 
-        assertEquals("Expected number of moves after multiple moves", 3, game.getNumMoves());
+        assertEquals("should be 1", 1, game.getNumMoves());
     }
 
     @Test
-    public void testGetNumMoves_noMoves() {
-        assertEquals("Expected number of moves with no moves", 0, game.getNumMoves());
-    }
-
-    @Test
-    public void testGetNumMoves_afterAddPiece() {
-        game.addPiece();
-        assertEquals("Expected number of moves after adding a piece", 0, game.getNumMoves());
-    }
-
-    @Test
-    public void testGetNumMoves_afterPerformMoveAndAddPiece() {
+    public void test_getNumMoves_all_moves() {
         game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.WEST);
+     
+		game.performMove(MoveDirection.EAST);
+		game.performMove(MoveDirection.WEST);
+        game.performMove(MoveDirection.NORTH);
+		game.performMove(MoveDirection.SOUTH);
+
+        assertEquals("4 moves", 4, game.getNumMoves());
+    }
+
+    @Test
+    public void test_getNumMoves_no_moves() {
+        assertEquals( 0, game.getNumMoves());
+    }
+
+    @Test
+    public void test_getNumMoves_after_addingPiece() {
+        game.addPiece();
+	assertEquals( 0, game.getNumMoves());
+    }
+
+    @Test
+    public void test_getNumMoves_aftermoveing_and_addingPiece() {
+        game.setPieceAt(0, 0, 2);
+        game.performMove(MoveDirection.SOUTH);
         game.addPiece();
 
-        assertEquals("Expected number of moves after move and add piece", 1, game.getNumMoves());
+        assertEquals( 1, game.getNumMoves());
     }
 
 	@Test
@@ -538,48 +540,50 @@ public class SimpleTests {
     }
 
     @Test
-    public void testGetNumPieces_afterAddPiece() {
+    public void test_getNumPieces_after_addindpiece() {
         game.addPiece();
-        assertEquals("Expected number of pieces after adding one piece", 1, game.getNumPieces());
+        assertEquals( 1, game.getNumPieces());
     }
 
     @Test
-    public void testGetNumPieces_afterMultipleAdds() {
+    public void test_getNumPieces_after3pieces() {
         game.addPiece();
         game.addPiece();
         game.addPiece();
 
-        assertEquals("Expected number of pieces after adding multiple pieces", 3, game.getNumPieces());
+        assertEquals("should be 3", 3, game.getNumPieces());
     }
 
     @Test
-    public void testGetNumPieces_afterPerformMove() {
+    public void test_getNumPieces_afterperforming_move() {
         game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.WEST);
+        game.performMove(MoveDirection.NORTH);
 
-        assertEquals("Expected number of pieces after performing a move", 1, game.getNumPieces());
+        assertEquals("Num of piece should be 1", 1, game.getNumPieces());
     }
 
     @Test
-    public void testGetNumPieces_afterPerformMoveAndAddPiece() {
+    public void test_getNumPieces_afterperforming_move_and_addingPiece() {
+
         game.setPieceAt(0, 0, 2);
-        game.performMove(MoveDirection.WEST);
+        game.performMove(MoveDirection.NORTH);
         game.addPiece();
 
-        assertEquals("Expected number of pieces after move and adding a piece", 2, game.getNumPieces());
+        assertEquals( 2, game.getNumPieces());
     }
 
     @Test
-    public void testGetNumPieces_fullBoard() {
-        // Fill up the board completely
+    public void test_getNumPieces_fullBoard() {
+
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
 
-        assertEquals("Expected number of pieces on a full board", game.getBoardHeight() * game.getBoardWidth(), game.getNumPieces());
+        assertEquals("NO. of pieces should be max for a full board", (game.getBoardHeight() * game.getBoardWidth()), game.getNumPieces());
     }
 
 	private void makeboard (int [] [] board){
+
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
 				game.setPieceAt(j, i, board[i][j]);
