@@ -100,7 +100,7 @@ public class SimpleTests {
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
-        assertThrows("Expected IllegalStateException to be thrown", IllegalStateException.class, () -> game.addPiece());
+        assertThrows("Expected IllegalStateException", IllegalStateException.class, () -> game.addPiece());
     }
 
 	@Test
@@ -108,9 +108,9 @@ public class SimpleTests {
         while (game.isSpaceLeft()) {
             game.addPiece();
         }
-        assertFalse("Expected no space to be left on board", game.isSpaceLeft());
+        assertFalse("Expected No space should be left on board", game.isSpaceLeft());
 
-        assertThrows("Expected IllegalStateException to be thrown", IllegalStateException.class, () -> game.addPiece());
+        assertThrows("Expected IllegalStateException", IllegalStateException.class, () -> game.addPiece());
     }
 	
     @Test
@@ -121,6 +121,16 @@ public class SimpleTests {
             game.addPiece();
         }
         assertFalse("Expected no space to be left on board", game.isSpaceLeft());
+    }
+
+	@Test
+    public void testNumPiece() {
+        assertTrue("Expected space to be left on board", game.isSpaceLeft());
+
+        while (game.isSpaceLeft()) {
+            game.addPiece();
+        }
+        assertEquals((game.getBoardHeight()*game.getBoardWidth()),game.getNumPieces());
     }
 
     @Test
@@ -491,45 +501,45 @@ public class SimpleTests {
 
 	@Test
     public void testGetNumMoves_initialState() {
-        assertEquals("Expected initial number of moves to be zero", 0, game.getNumMoves());
+        assertEquals("Expected initial number of moves : zero", 0, game.getNumMoves());
     }
 
     @Test
-    public void testGetNumMoves_afterPerformMove() {
+    public void testGetNumMoves_afterPerformingMove() {
         game.setPieceAt(0, 0, 2);
         game.performMove(MoveDirection.WEST);
 
-        assertEquals("Expected number of moves after one move", 1, game.getNumMoves());
+        assertEquals("should be one move", 1, game.getNumMoves());
     }
 
     @Test
-    public void testGetNumMoves_multipleMoves() {
+    public void testGetNumMoves_multiple_moves() {
         game.setPieceAt(0, 0, 2);
         game.performMove(MoveDirection.WEST);
         game.performMove(MoveDirection.EAST);
         game.performMove(MoveDirection.NORTH);
 
-        assertEquals("Expected number of moves after multiple moves", 3, game.getNumMoves());
+        assertEquals("Expected number :3", 3, game.getNumMoves());
     }
 
     @Test
     public void testGetNumMoves_noMoves() {
-        assertEquals("Expected number of moves with no moves", 0, game.getNumMoves());
+        assertEquals( 0, game.getNumMoves());
     }
 
     @Test
-    public void testGetNumMoves_afterAddPiece() {
+    public void testGetNumMoves_afterAdding_Piece() {
         game.addPiece();
-        assertEquals("Expected number of moves after adding a piece", 0, game.getNumMoves());
+        assertEquals( 0, game.getNumMoves());
     }
 
     @Test
-    public void testGetNumMoves_afterPerformMoveAndAddPiece() {
+    public void testGetNumMoves_after_PerformMove_And_AddPiece() {
         game.setPieceAt(0, 0, 2);
         game.performMove(MoveDirection.WEST);
         game.addPiece();
 
-        assertEquals("Expected number of moves after move and add piece", 1, game.getNumMoves());
+        assertEquals("should be 1", 1, game.getNumMoves());
     }
 
 	private void makeboard (int [] [] board){
