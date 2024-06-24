@@ -18,8 +18,10 @@ public class TTFEFactory {
 	 */
 	public static SimulatorInterface createSimulator(int width, int height,
 			Random r) {
-		// TODO: Implement me. Return a simulator instance.
-		return null;
+		if (width < 2 || height < 2 || r == null){
+			throw new IllegalArgumentException("Width|| height|| random should not be zero ");
+		}
+		return new Myimplementation(width, height, r);
 	}
 
 	/**
