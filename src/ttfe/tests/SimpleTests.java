@@ -81,16 +81,7 @@ public class SimpleTests {
 		}else {ans = false;}
         assertTrue("The no. of points should be power of 2", ans);
 	}
-
-	@Test
-	public void test_mergeFORtwo_two_Points(){
-		game.setPieceAt(0, 0, 2);
-		game.setPieceAt(0, 1, 2);
-		game.performMove(MoveDirection.WEST);
-        assertEquals("The no. of points should be zero but is not.",4,game.getPoints());
-		assertEquals("Expected sum 4.",4, game.getPieceAt(0,0) );
-	}
-
+	
 	@Test
 	public void test_mereegeFORtwo_two_Points(){
         int[][] values = {
