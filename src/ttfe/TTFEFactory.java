@@ -50,7 +50,9 @@ public class TTFEFactory {
 		if (human) {
 			return new HumanPlayer();
 		} 
-		 return new AIPlayer();
+		
+		// TODO: Implement me. Return a computer player instance.
+		return null;
 	}
 
 }
