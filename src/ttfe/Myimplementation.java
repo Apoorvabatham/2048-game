@@ -248,6 +248,9 @@ public class Myimplementation implements SimulatorInterface{
             }
         }
         break;
+
+        default:
+            return false;
         }
 
         if (done){
@@ -266,7 +269,7 @@ public class Myimplementation implements SimulatorInterface{
         ui.updateScreen(this);
         while (isMovePossible()){
             MoveDirection direction = player.getPlayerMove(this, ui);
-            if (performMove(direction)){
+            if (direction != null && performMove(direction)){
                addPiece();
             }
             ui.updateScreen(this);
@@ -276,14 +279,14 @@ public class Myimplementation implements SimulatorInterface{
 
     @Override
     public void setPieceAt(int x, int y, int piece) {
-        if (x <0 || y< 0 || x >= getBoardWidth() || y >= getBoardHeight() || (piece % 2 != 0)|| piece < 0){
+        if (x <0 || y< 0 || x >= getBoardWidth() || y >= getBoardHeight() || (piece != 0 && piece % 2 != 0)|| piece < 0){
             throw new IllegalArgumentException("Invalid piece value or invalid board dimensions");
             }else if (board[y][x] != 0 && piece == 0){
                 numPieces--;
             }else if (board[y][x]== 0 && piece != 0 ){
                 numPieces++;
             }
-            
+
     board [y][x]= piece;
     }
 }

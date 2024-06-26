@@ -90,6 +90,27 @@ public class SimpleTests {
         assertEquals("The no. of points should be zero but is not.",4,game.getPoints());
 		assertEquals("Expected sum 4.",4, game.getPieceAt(0,0) );
 	}
+
+	@Test
+	public void test_mereegeFORtwo_two_Points(){
+        int[][] values = {
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0}
+        };
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                game.setPieceAt(i, j, values[i][j]);
+            }
+        }
+		game.setPieceAt(0, 0, 2);
+		game.setPieceAt(0, 1, 2);
+		game.performMove(MoveDirection.NORTH);
+        assertEquals("The no. of points should be zero but is not.",4,game.getPoints());
+		assertEquals("Expected sum 4.",4, game.getPieceAt(0,0) );
+	}
 	
 	@Test
     public void testAddPiece() {
