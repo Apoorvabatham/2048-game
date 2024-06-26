@@ -38,7 +38,7 @@ public class Myimplementation implements SimulatorInterface{
             y= random.nextInt(height);
             } while (board[y][x] != 0);
         
-        board [y][x]= random.nextDouble() <0.9 ? 2 : 4; // 10% chance of 4, 90% chance of 2
+        board [y][x]= random.nextDouble() <0.9 ? 2 : 4; 
             numPieces++;
     }
 
@@ -79,7 +79,7 @@ public class Myimplementation implements SimulatorInterface{
     public boolean isMovePossible() {
        if (isSpaceLeft()) return true;
        for (int i = 0; i < height; i++) {
-        for (int j = 0; j< width; j++){
+        for (int j = 0; j < width; j++) {
             if ((i < height -1 && board [i][j]== board [i+1][j]) || (j< width-1 && board[i][j]== board [i][j+1]) || (board[i][j]== 0) ){
                 return true;
             }
