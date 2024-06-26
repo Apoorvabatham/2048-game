@@ -1,5 +1,7 @@
 package ttfe;
 
+import ttfe.SimulatorInterface;
+
 public class AI implements PlayerInterface {
     
     @Override
