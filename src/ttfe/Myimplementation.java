@@ -152,112 +152,111 @@ public class Myimplementation implements SimulatorInterface{
 
     @Override
     public boolean performMove(MoveDirection direction) {
-    if (direction == null) throw new IllegalArgumentException("Invalid direction 'null'")  ;
-    if (!(isMovePossible())) return false;
+        if (direction == null) throw new IllegalArgumentException("Invalid direction 'null'");
+        if (!isMovePossible()) return false;
 
-    boolean done = false;
-    switch (direction) {
-        case NORTH :
-        for (int x = 0; x < width; x++) {
-            for (int y = 1; y < height; y++) {
-                if (board[y][x] != 0) {
-                 int currentY = y;
-                    while (currentY > 0 && board[currentY - 1][x] == 0) {
-                        board[currentY - 1][x] = board[currentY][x];
-                        board[currentY][x] = 0;
-                        currentY--;
-                        done = true;
-                    }
-                    if (currentY > 0 && board[currentY - 1][x] == board[currentY][x]) {
-                        board[currentY - 1][x] *= 2;
-                        points += board[currentY - 1][x];
-                        board[currentY][x] = 0;
-                        done = true;
-                        numPieces --;
+        boolean done = false;
+        int[][] newBoard = new int[height][width];
+
+        switch (direction) {
+            case NORTH:
+                for (int x = 0; x < width; x++) {
+                    int writeIndex = 0;
+                    int lastMergedIndex = -1;
+                    for (int y = 0; y < height; y++) {
+                        if (board[y][x] != 0) {
+                            if (writeIndex > 0 && newBoard[writeIndex-1][x] == board[y][x] && writeIndex-1 > lastMergedIndex) {
+                                newBoard[writeIndex-1][x] *= 2;
+                                points += newBoard[writeIndex-1][x];
+                                lastMergedIndex = writeIndex - 1;
+                                numPieces--;
+                                done = true;
+                            } else {
+                                newBoard[writeIndex][x] = board[y][x];
+                                if (writeIndex != y) done = true;
+                                writeIndex++;
+                            }
+                        }
                     }
                 }
-            }
-        }
-        break; 
-        
-        case SOUTH:
-        for (int x = 0; x < width; x++) {
-            for (int y = height - 2; y >= 0; y--) {
-                if (board[y][x] != 0) {
-                int currentY = y;
-                    while (currentY < height - 1 && board[currentY + 1][x] == 0) {
-                        board[currentY + 1][x] = board[currentY][x];
-                        board[currentY][x] = 0;
-                        currentY++;
-                        done = true;
-                    }
-                    if (currentY < height - 1 && board[currentY + 1][x] == board[currentY][x]) {
-                        board[currentY + 1][x] *= 2;
-                        points += board[currentY + 1][x];
-                        board[currentY][x] = 0;
-                        done = true;
-                        numPieces --;
-                    }
-                }
-            }
-        }
-        break;
-
-        case EAST:
-        for (int y = 0; y < height; y++) {
-            for (int x = width - 2; x >= 0; x--) {
-                if (board[y][x] != 0) {
-                 int currentX = x;
-                    while (currentX < width - 1 && board[y][currentX + 1] == 0) {
-                        board[y][currentX + 1] = board [y][currentX];
-                        board[y][currentX] = 0;
-                        currentX++;
-                        done = true;
-                    }
-                    if (currentX < width - 1 && board [y][currentX + 1] == board [y][currentX]) {
-                        board [y][currentX + 1] *= 2;
-                        points += board [y][currentX + 1];
-                        board [y] [currentX]= 0;
-                        done = true;
-                        numPieces --;
+                break;
+            
+            case SOUTH:
+                for (int x = 0; x < width; x++) {
+                    int writeIndex = height - 1;
+                    int lastMergedIndex = height;
+                    for (int y = height - 1; y >= 0; y--) {
+                        if (board[y][x] != 0) {
+                            if (writeIndex < height - 1 && newBoard[writeIndex+1][x] == board[y][x] && writeIndex+1 < lastMergedIndex) {
+                                newBoard[writeIndex+1][x] *= 2;
+                                points += newBoard[writeIndex+1][x];
+                                lastMergedIndex = writeIndex + 1;
+                                numPieces--;
+                                done = true;
+                            } else {
+                                newBoard[writeIndex][x] = board[y][x];
+                                if (writeIndex != y) done = true;
+                                writeIndex--;
+                            }
+                        }
                     }
                 }
-            }
-        }
-        break;
+                break;
 
-        case WEST:
-        for (int y = 0; y < height; y++) {
-            for (int x = 1; x < width; x++) {
-                if (board[y][x] != 0) {
-                int currentX = x;
-                    while (currentX > 0 && board[y][currentX - 1] == 0) {
-                        board [y][currentX - 1] = board [y][currentX];
-                        board [y][currentX] = 0;
-                        currentX--;
-                        done = true;
-                    }
-                    if (currentX > 0 && board [y][currentX - 1] == board[y][currentX]) {
-                        board[y][currentX - 1] *= 2;
-                        points += board[y][currentX - 1];
-                        board[y][currentX] = 0;
-                        done = true;
-                        numPieces --;
+            case EAST:
+                for (int y = 0; y < height; y++) {
+                    int writeIndex = width - 1;
+                    int lastMergedIndex = width;
+                    for (int x = width - 1; x >= 0; x--) {
+                        if (board[y][x] != 0) {
+                            if (writeIndex < width - 1 && newBoard[y][writeIndex+1] == board[y][x] && writeIndex+1 < lastMergedIndex) {
+                                newBoard[y][writeIndex+1] *= 2;
+                                points += newBoard[y][writeIndex+1];
+                                lastMergedIndex = writeIndex + 1;
+                                numPieces--;
+                                done = true;
+                            } else {
+                                newBoard[y][writeIndex] = board[y][x];
+                                if (writeIndex != x) done = true;
+                                writeIndex--;
+                            }
+                        }
                     }
                 }
-            }
-        }
-        break;
+                break;
+                
+            case WEST:
+                for (int y = 0; y < height; y++) {
+                    int writeIndex = 0;
+                    int lastMergedIndex = -1;
+                    for (int x = 0; x < width; x++) {
+                        if (board[y][x] != 0) {
+                            if (writeIndex > 0 && newBoard[y][writeIndex-1] == board[y][x] && writeIndex-1 > lastMergedIndex) {
+                                newBoard[y][writeIndex-1] *= 2;
+                                points += newBoard[y][writeIndex-1];
+                                lastMergedIndex = writeIndex - 1;
+                                numPieces--;
+                                done = true;
+                            } else {
+                                newBoard[y][writeIndex] = board[y][x];
+                                if (writeIndex != x) done = true;
+                                writeIndex++;
+                            }
+                        }
+                    }
+                }
+                break;
 
-        default:
-            return false;
+            default:
+                return false;
         }
 
-        if (done){
-        numMoves ++;
+        if (done) {
+            board = newBoard;
+            numMoves++;
         }
 
-        return done; 
+        return done;
     }
 
     @Override
