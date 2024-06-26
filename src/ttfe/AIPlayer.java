@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 public class AIPlayer implements PlayerInterface {
-    private static final int SIMULATIONS = 1000;
-    private static final double EXPLORATION_PARAMETER = Math.sqrt(2);
+    private static final int MAX_DEPTH = 5;
+    private static final int SIMULATIONS = 500;
     private Random random;
 
     public AIPlayer() {
@@ -15,83 +15,92 @@ public class AIPlayer implements PlayerInterface {
 
     @Override
     public MoveDirection getPlayerMove(SimulatorInterface game, UserInterface ui) {
-        Node rootNode = new Node(null, null);
-        for (int i = 0; i < SIMULATIONS; i++) {
-            Node node = selectNode(rootNode);
-            int score = simulateRandomPlayout(node.game);
-            backpropagate(node, score);
+        List<MoveDirection> possibleMoves = getPossibleMoves(game);
+        if (possibleMoves.isEmpty()) {
+            return null;
         }
-        return getBestMove(rootNode);
-    }
 
-    private Node selectNode(Node node) {
-        while (!node.isLeaf()) {
-            if (node.isFullyExpanded()) {
-                node = UCT.findBestNodeWithUCT(node);
-            } else {
-                return expand(node);
+        MoveDirection bestMove = null;
+        int bestScore = Integer.MIN_VALUE;
+
+        for (MoveDirection move : possibleMoves) {
+            int totalScore = 0;
+            for (int i = 0; i < SIMULATIONS; i++) {
+                SimulatorInterface clonedGame = cloneGame(game);
+                clonedGame.performMove(move);
+                clonedGame.addPiece();
+                totalScore += simulateRandomPlayout(clonedGame, MAX_DEPTH);
+            }
+            if (totalScore > bestScore) {
+                bestScore = totalScore;
+                bestMove = move;
             }
         }
-        return node;
+
+        return bestMove;
     }
 
-    private Node expand(Node node) {
-        List<MoveDirection> untriedMoves = node.getUntriedMoves();
-        MoveDirection move = untriedMoves.get(random.nextInt(untriedMoves.size()));
-        SimulatorInterface nextState = cloneAndMove(node.game, move);
-        Node childNode = new Node(move, nextState);
-        childNode.parent = node;
-        node.children.add(childNode);
-        return childNode;
-    }
-
-    private int simulateRandomPlayout(SimulatorInterface game) {
-        SimulatorInterface tempGame = cloneGame(game);
-        while (tempGame.isMovePossible()) {
-            List<MoveDirection> possibleMoves = getPossibleMoves(tempGame);
-            MoveDirection randomMove = possibleMoves.get(random.nextInt(possibleMoves.size()));
-            tempGame.performMove(randomMove);
-            tempGame.addPiece();
+    private int simulateRandomPlayout(SimulatorInterface game, int depth) {
+        if (depth == 0 || !game.isMovePossible()) {
+            return evaluateBoard(game);
         }
-        return tempGame.getPoints();
-    }
 
-    private void backpropagate(Node node, int score) {
-        while (node != null) {
-            node.visits++;
-            node.totalScore += score;
-            node = node.parent;
+        List<MoveDirection> possibleMoves = getPossibleMoves(game);
+        if (possibleMoves.isEmpty()) {
+            return evaluateBoard(game);
         }
+
+        MoveDirection randomMove = possibleMoves.get(random.nextInt(possibleMoves.size()));
+        game.performMove(randomMove);
+        game.addPiece();
+
+        return simulateRandomPlayout(game, depth - 1);
     }
 
-    private MoveDirection getBestMove(Node rootNode) {
-        Node bestChild = null;
-        double bestScore = Double.NEGATIVE_INFINITY;
-        for (Node child : rootNode.children) {
-            double childScore = child.totalScore / child.visits;
-            if (childScore > bestScore) {
-                bestScore = childScore;
-                bestChild = child;
-            }
-        }
-        return bestChild != null ? bestChild.move : MoveDirection.values()[random.nextInt(4)];
+    private int evaluateBoard(SimulatorInterface game) {
+        int score = game.getPoints();
+        int emptyTiles = countEmptyTiles(game);
+        int maxTile = getMaxTile(game);
+        int smoothness = calculateSmoothness(game);
+
+        return score + (emptyTiles * 10) + (maxTile * 2) + smoothness;
     }
 
-    private SimulatorInterface cloneAndMove(SimulatorInterface game, MoveDirection move) {
-        SimulatorInterface clonedGame = cloneGame(game);
-        clonedGame.performMove(move);
-        clonedGame.addPiece();
-        return clonedGame;
-    }
-
-    private SimulatorInterface cloneGame(SimulatorInterface game) {
-        SimulatorInterface clonedGame = TTFEFactory.createSimulator(game.getBoardWidth(), game.getBoardHeight(), new Random());
+    private int countEmptyTiles(SimulatorInterface game) {
+        int count = 0;
         for (int x = 0; x < game.getBoardWidth(); x++) {
             for (int y = 0; y < game.getBoardHeight(); y++) {
-                clonedGame.setPieceAt(x, y, game.getPieceAt(x, y));
+                if (game.getPieceAt(x, y) == 0) {
+                    count++;
+                }
             }
         }
-        return clonedGame;
+        return count;
+    }
+
+    private int getMaxTile(SimulatorInterface game) {
+        int max = 0;
+        for (int x = 0; x < game.getBoardWidth(); x++) {
+            for (int y = 0; y < game.getBoardHeight(); y++) {
+                max = Math.max(max, game.getPieceAt(x, y));
+            }
+        }
+        return max;
+    }
+
+    private int calculateSmoothness(SimulatorInterface game) {
+        int smoothness = 0;
+        for (int x = 0; x < game.getBoardWidth(); x++) {
+            for (int y = 0; y < game.getBoardHeight(); y++) {
+                if (x < game.getBoardWidth() - 1) {
+                    smoothness -= Math.abs(game.getPieceAt(x, y) - game.getPieceAt(x + 1, y));
+                }
+                if (y < game.getBoardHeight() - 1) {
+                    smoothness -= Math.abs(game.getPieceAt(x, y) - game.getPieceAt(x, y + 1));
+                }
+            }
+        }
+        return smoothness;
     }
 
     private List<MoveDirection> getPossibleMoves(SimulatorInterface game) {
@@ -104,67 +113,13 @@ public class AIPlayer implements PlayerInterface {
         return possibleMoves;
     }
 
-    private static class Node {
-        MoveDirection move;
-        SimulatorInterface game;
-        Node parent;
-        List<Node> children;
-        int visits;
-        double totalScore;
-
-        Node(MoveDirection move, SimulatorInterface game) {
-            this.move = move;
-            this.game = game;
-            this.children = new ArrayList<>();
-            this.visits = 0;
-            this.totalScore = 0;
-        }
-
-        boolean isLeaf() {
-            return children.isEmpty();
-        }
-
-        boolean isFullyExpanded() {
-            return getUntriedMoves().isEmpty();
-        }
-
-        List<MoveDirection> getUntriedMoves() {
-            List<MoveDirection> untriedMoves = new ArrayList<>();
-            for (MoveDirection move : MoveDirection.values()) {
-                if (game.isMovePossible(move) && !hasChild(move)) {
-                    untriedMoves.add(move);
-                }
+    private SimulatorInterface cloneGame(SimulatorInterface game) {
+        SimulatorInterface clonedGame = TTFEFactory.createSimulator(game.getBoardWidth(), game.getBoardHeight(), new Random());
+        for (int x = 0; x < game.getBoardWidth(); x++) {
+            for (int y = 0; y < game.getBoardHeight(); y++) {
+                clonedGame.setPieceAt(x, y, game.getPieceAt(x, y));
             }
-            return untriedMoves;
         }
-
-        boolean hasChild(MoveDirection move) {
-            for (Node child : children) {
-                if (child.move == move) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    private static class UCT {
-        static Node findBestNodeWithUCT(Node node) {
-            double bestScore = Double.NEGATIVE_INFINITY;
-            Node bestChild = null;
-            for (Node child : node.children) {
-                double uctScore = calculateUCTScore(node, child);
-                if (uctScore > bestScore) {
-                    bestScore = uctScore;
-                    bestChild = child;
-                }
-            }
-            return bestChild;
-        }
-
-        private static double calculateUCTScore(Node parent, Node child) {
-            return (child.totalScore / child.visits)
-                    + EXPLORATION_PARAMETER * Math.sqrt(Math.log(parent.visits) / child.visits);
-        }
+        return clonedGame;
     }
 }
