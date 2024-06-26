@@ -49,10 +49,9 @@ public class TTFEFactory {
 	public static PlayerInterface createPlayer(boolean human) {
 		if (human) {
 			return new HumanPlayer();
-		} 
-		
-		// TODO: Implement me. Return a computer player instance.
-		return null;
+		}else {
+			return new AI();
+		}
 	}
 
 }
